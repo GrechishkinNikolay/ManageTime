@@ -1,11 +1,11 @@
-package com.example.managetime;
+package com.example.managetime.Views;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.managetime.R;
 
 public class AddTaskActivity extends AppCompatActivity {
     @Override
