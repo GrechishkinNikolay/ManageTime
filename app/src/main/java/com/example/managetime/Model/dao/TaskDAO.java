@@ -1,11 +1,15 @@
 package com.example.managetime.Model.dao;
 
+import com.example.managetime.Model.dto.Task;
+
+import java.util.List;
+
 public class TaskDAO {
     public TaskDAO() {
     }
 
-    public List<Task> getTasksByUserId(int userId) {
-        return DBManager.getUserTasksById(userId);
+/*    public List<Task> getTasksByDay(String date) {
+        return DBManager.getTasksByDay(date);
     }
 
     public void addTask(int projectId, int numberOfPerformers, String text, int userId) {
@@ -22,5 +26,5 @@ public class TaskDAO {
 
     public Task getTasksById(int taskId) {
         return DBManager.getTaskById(taskId);
-    }
+    }*/
 }

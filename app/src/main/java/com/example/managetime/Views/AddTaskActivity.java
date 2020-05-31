@@ -2,6 +2,7 @@ package com.example.managetime.Views;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.EditText;
 
 import androidx.annotation.Nullable;
@@ -12,13 +13,6 @@ import com.example.managetime.R;
 public class AddTaskActivity extends AppCompatActivity {
 
     private EditText editTextTaskTitle;
-    private UserAdapter userAdapter;
-
-    private EditText editTextName;
-    private EditText editTextEmail;
-    private ProgressDialog progressDialog;
-
-    private UsersPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,6 +24,8 @@ public class AddTaskActivity extends AppCompatActivity {
     private void init() {
         editTextTaskTitle = (EditText) findViewById(R.id.taskTitle);
 
+        editTextTaskTitle.requestFocus();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 /*        findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,6 +49,5 @@ public class AddTaskActivity extends AppCompatActivity {
         presenter.attachView(this);
         presenter.viewIsReady();*/
 
-        editTextTaskTitle.requestFocus();
     }
 }

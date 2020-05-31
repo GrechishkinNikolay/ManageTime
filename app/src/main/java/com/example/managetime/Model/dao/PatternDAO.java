@@ -4,7 +4,7 @@ public class PatternDAO {
     public PatternDAO() {
     }
 
-    public List<User> getAllUsers() {
+/*    public List<User> getAllUsers() {
         return DBManager.getAllUsers();
     }
 
@@ -22,5 +22,5 @@ public class PatternDAO {
 
     public void addUserToCommunity(int communityId, int userId, int userCodeGroup, int isBlocked) {
         DBManager.addUserToCommunity(communityId, userId, userCodeGroup, isBlocked);
-    }
+    }*/
 }
