@@ -13,6 +13,7 @@ import com.example.managetime.R;
 public class AddTaskActivity extends AppCompatActivity {
 
     private EditText editTextTaskTitle;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,5 +50,15 @@ public class AddTaskActivity extends AppCompatActivity {
         presenter.attachView(this);
         presenter.viewIsReady();*/
 
+    }
+
+    public void showProgress() {
+        progressDialog = ProgressDialog.show(this, "", getString(R.string.please_wait));
+    }
+
+    public void hideProgress() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
     }
 }

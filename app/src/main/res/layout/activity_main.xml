@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.54" />
+        app:layout_constraintGuide_percent="0.5" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/calendarPath"
@@ -43,10 +43,12 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
-        <ListView
+
+        <ExpandableListView
             android:id="@+id/tasksListView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+        </ExpandableListView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addButton"

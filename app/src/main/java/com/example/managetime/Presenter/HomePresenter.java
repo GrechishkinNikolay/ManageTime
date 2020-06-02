@@ -30,7 +30,7 @@ public class HomePresenter {
     }
 
     public void loadTasks() {
-/*        model.loadTasks(new UsersModel.LoadUserCallback() {
+/*        model.loadUsers(new UsersModel.LoadUserCallback() {
             @Override
             public void onLoad(List<User> users) {
                 view.showUsers(users);
