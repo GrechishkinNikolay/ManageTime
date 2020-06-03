@@ -1,40 +1,72 @@
 package com.example.managetime.Model.dto;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.util.List;
+import java.util.Objects;
 
-public class Pattern {
+@Entity
+public class Pattern implements Parcelable {
 
-    private int id;
-    private String name;
-    private List<Task> tasks;
+    @PrimaryKey(autoGenerate = true)
+    public int id;
 
-    public Pattern(int id, String name, List<Task> tasks) {
-        this.id = id;
-        this.name = name;
-        this.tasks = tasks;
+    @ColumnInfo(name = "name")
+    public String name;
+
+    @ColumnInfo(name = "tasks")
+    public List<Task> tasks;
+
+    public Pattern() {
     }
 
-    public int getId() {
-        return id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pattern pattern = (Pattern) o;
+        return id == pattern.id &&
+                name.equals(pattern.name) &&
+                Objects.equals(tasks, pattern.tasks);
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, tasks);
     }
 
-    public String getName() {
-        return name;
+    protected Pattern(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        tasks = in.createTypedArrayList(Task.CREATOR);
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public static final Creator<Pattern> CREATOR = new Creator<Pattern>() {
+        @Override
+        public Pattern createFromParcel(Parcel in) {
+            return new Pattern(in);
+        }
+
+        @Override
+        public Pattern[] newArray(int size) {
+            return new Pattern[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public List<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeTypedList(tasks);
     }
 }

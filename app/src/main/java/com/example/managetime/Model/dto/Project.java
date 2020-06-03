@@ -1,60 +1,82 @@
 package com.example.managetime.Model.dto;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.util.List;
+import java.util.Objects;
 
-public class Project {
-    private int id;
-    private String name;
-    private String description;
-    private List<Task> tasks;
-    private List<Pattern> patterns;
+@Entity
+public class Project implements Parcelable {
 
-    public Project(int id, String name, String description, List<Task> tasks, List<Pattern> patterns) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.tasks = tasks;
-        this.patterns = patterns;
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+
+    @ColumnInfo(name = "name")
+    public String name;
+
+    @ColumnInfo(name = "description")
+    public String description;
+
+    @ColumnInfo(name = "tasks")
+    public List<Task> tasks;
+
+    @ColumnInfo(name = "patterns")
+    public List<Pattern> patterns;
+
+    public Project() {
     }
 
-    public int getId() {
-        return id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Project project = (Project) o;
+        return id == project.id &&
+                name.equals(project.name) &&
+                Objects.equals(description, project.description) &&
+                Objects.equals(tasks, project.tasks) &&
+                Objects.equals(patterns, project.patterns);
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, tasks, patterns);
     }
 
-    public String getName() {
-        return name;
+    protected Project(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        description = in.readString();
+        tasks = in.createTypedArrayList(Task.CREATOR);
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public static final Creator<Project> CREATOR = new Creator<Project>() {
+        @Override
+        public Project createFromParcel(Parcel in) {
+            return new Project(in);
+        }
+
+        @Override
+        public Project[] newArray(int size) {
+            return new Project[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public String getDescription() {
-        return description;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(description);
+        dest.writeTypedList(tasks);
     }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public List<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
-    }
-
-    public List<Pattern> getPatterns() {
-        return patterns;
-    }
-
-    public void setPatterns(List<Pattern> patterns) {
-        this.patterns = patterns;
-    }
-
 }

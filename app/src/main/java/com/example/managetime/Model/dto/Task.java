@@ -1,100 +1,108 @@
 package com.example.managetime.Model.dto;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.util.List;
+import java.util.Objects;
 
-public class Task {
-    private int id;
-    private String title;
-    private String taskDescription;
-    private String duration;
-    private String startTime;
-    private String endTime;
-    private boolean isDone;
-    private List<Task> subtasks;
+@Entity
+public class Task implements Parcelable {
 
-    public Task(int id, String title, String taskDescription, String duration, String startTime, String endTime, boolean isDone, String priority, List<Task> subtasks) {
-        this.id = id;
-        this.title = title;
-        this.taskDescription = taskDescription;
-        this.duration = duration;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.isDone = isDone;
-        this.priority = priority;
-        this.subtasks = subtasks;
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+
+    @ColumnInfo(name = "title")
+    public String title;
+
+    @ColumnInfo(name = "taskDescription")
+    public String taskDescription;
+
+    @ColumnInfo(name = "priority")
+    public String priority;
+
+    @ColumnInfo(name = "duration")
+    public long duration;
+
+    @ColumnInfo(name = "startTime")
+    public long startTime;
+
+    @ColumnInfo(name = "endTime")
+    public long endTime;
+
+    @ColumnInfo(name = "isDone")
+    public boolean isDone;
+
+    @ColumnInfo(name = "subtasks")
+    public List<Task> subtasks;
+
+    public Task() {
     }
 
-    public int getId() {
-        return id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return id == task.id &&
+                duration == task.duration &&
+                startTime == task.startTime &&
+                endTime == task.endTime &&
+                isDone == task.isDone &&
+                title.equals(task.title) &&
+                Objects.equals(taskDescription, task.taskDescription) &&
+                Objects.equals(priority, task.priority) &&
+                Objects.equals(subtasks, task.subtasks);
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, taskDescription, priority, duration, startTime, endTime, isDone, subtasks);
     }
 
-    public String getTitle() {
-        return title;
+    protected Task(Parcel in) {
+        id = in.readInt();
+        title = in.readString();
+        taskDescription = in.readString();
+        priority = in.readString();
+        duration = in.readLong();
+        startTime = in.readLong();
+        endTime = in.readLong();
+        isDone = in.readByte() != 0;
+        subtasks = in.createTypedArrayList(Task.CREATOR);
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public static final Creator<Task> CREATOR = new Creator<Task>() {
+        @Override
+        public Task createFromParcel(Parcel in) {
+            return new Task(in);
+        }
+
+        @Override
+        public Task[] newArray(int size) {
+            return new Task[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public String getTaskDescription() {
-        return taskDescription;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(title);
+        dest.writeString(taskDescription);
+        dest.writeString(priority);
+        dest.writeLong(duration);
+        dest.writeLong(startTime);
+        dest.writeLong(endTime);
+        dest.writeByte((byte) (isDone ? 1 : 0));
+        dest.writeTypedList(subtasks);
     }
-
-    public void setTaskDescription(String taskDescription) {
-        this.taskDescription = taskDescription;
-    }
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
-
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
-    public boolean isDone() {
-        return isDone;
-    }
-
-    public void setDone(boolean done) {
-        isDone = done;
-    }
-
-    public String getPriority() {
-        return priority;
-    }
-
-    public void setPriority(String priority) {
-        this.priority = priority;
-    }
-
-    public List<Task> getSubtasks() {
-        return subtasks;
-    }
-
-    public void setSubtasks(List<Task> subtasks) {
-        this.subtasks = subtasks;
-    }
-
-    private String priority;
 }
