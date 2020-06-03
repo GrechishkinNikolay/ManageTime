@@ -1,5 +1,6 @@
 package com.example.managetime.Views;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -73,6 +74,13 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+
             }
         });
 

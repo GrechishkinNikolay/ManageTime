@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.TimePicker;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
     private EditText editTextTaskTitle;
     private ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +52,13 @@ public class AddTaskActivity extends AppCompatActivity {
         presenter.attachView(this);
         presenter.viewIsReady();*/
 
+        TimePicker timePicker = findViewById(R.id.timePicker);
+        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+            @Override
+            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+
+            }
+        });
     }
 
     public void showProgress() {

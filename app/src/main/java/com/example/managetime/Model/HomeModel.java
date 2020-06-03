@@ -14,11 +14,11 @@ public class HomeModel {
         this.dbHelper = dbHelper;
     }
 
-    public List<Task> getTasksByDay(String date) {
+/*    public List<Task> getTasksByDay(String date) {
         List<Task> tasks = new ArrayList<>();
         tasks.add(new Task(1, "Задача 1", "Описание задачи 1", "", "", "", false, "", null));
         tasks.add(new Task(2, "Задача 2", "Описание задачи 2", "", "", "", false, "", null));
         tasks.add(new Task(3, "Задача 3", "Описание задачи 3", "", "", "", false, "", null));
         return tasks;
-    }
+    }*/
 }
