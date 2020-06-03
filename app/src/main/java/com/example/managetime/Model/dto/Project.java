@@ -7,7 +7,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -22,12 +21,6 @@ public class Project implements Parcelable {
     @ColumnInfo(name = "description")
     public String description;
 
-    @ColumnInfo(name = "tasks")
-    public List<Task> tasks;
-
-    @ColumnInfo(name = "patterns")
-    public List<Pattern> patterns;
-
     public Project() {
     }
 
@@ -38,21 +31,18 @@ public class Project implements Parcelable {
         Project project = (Project) o;
         return id == project.id &&
                 name.equals(project.name) &&
-                Objects.equals(description, project.description) &&
-                Objects.equals(tasks, project.tasks) &&
-                Objects.equals(patterns, project.patterns);
+                Objects.equals(description, project.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, tasks, patterns);
+        return Objects.hash(id, name, description);
     }
 
     protected Project(Parcel in) {
         id = in.readInt();
         name = in.readString();
         description = in.readString();
-        tasks = in.createTypedArrayList(Task.CREATOR);
     }
 
     public static final Creator<Project> CREATOR = new Creator<Project>() {
@@ -77,6 +67,5 @@ public class Project implements Parcelable {
         dest.writeInt(id);
         dest.writeString(name);
         dest.writeString(description);
-        dest.writeTypedList(tasks);
     }
 }

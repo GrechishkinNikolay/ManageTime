@@ -7,7 +7,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -19,8 +18,8 @@ public class Pattern implements Parcelable {
     @ColumnInfo(name = "name")
     public String name;
 
-    @ColumnInfo(name = "tasks")
-    public List<Task> tasks;
+    @ColumnInfo(name = "project")
+    public int project;
 
     public Pattern() {
     }
@@ -31,19 +30,19 @@ public class Pattern implements Parcelable {
         if (o == null || getClass() != o.getClass()) return false;
         Pattern pattern = (Pattern) o;
         return id == pattern.id &&
-                name.equals(pattern.name) &&
-                Objects.equals(tasks, pattern.tasks);
+                project == pattern.project &&
+                name.equals(pattern.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, tasks);
+        return Objects.hash(id, name, project);
     }
 
     protected Pattern(Parcel in) {
         id = in.readInt();
         name = in.readString();
-        tasks = in.createTypedArrayList(Task.CREATOR);
+        project = in.readInt();
     }
 
     public static final Creator<Pattern> CREATOR = new Creator<Pattern>() {
@@ -67,6 +66,6 @@ public class Pattern implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(name);
-        dest.writeTypedList(tasks);
+        dest.writeInt(project);
     }
 }

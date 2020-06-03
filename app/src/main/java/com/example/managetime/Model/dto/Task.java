@@ -7,7 +7,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -37,8 +36,14 @@ public class Task implements Parcelable {
     @ColumnInfo(name = "isDone")
     public boolean isDone;
 
-    @ColumnInfo(name = "subtasks")
-    public List<Task> subtasks;
+    @ColumnInfo(name = "parentTask")
+    public long parentTask;
+
+    @ColumnInfo(name = "pattern")
+    public long pattern;
+
+    @ColumnInfo(name = "project")
+    public long project;
 
     public Task() {
     }
@@ -53,15 +58,17 @@ public class Task implements Parcelable {
                 startTime == task.startTime &&
                 endTime == task.endTime &&
                 isDone == task.isDone &&
+                parentTask == task.parentTask &&
+                pattern == task.pattern &&
+                project == task.project &&
                 title.equals(task.title) &&
                 Objects.equals(taskDescription, task.taskDescription) &&
-                Objects.equals(priority, task.priority) &&
-                Objects.equals(subtasks, task.subtasks);
+                Objects.equals(priority, task.priority);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, taskDescription, priority, duration, startTime, endTime, isDone, subtasks);
+        return Objects.hash(id, title, taskDescription, priority, duration, startTime, endTime, isDone, parentTask, pattern, project);
     }
 
     protected Task(Parcel in) {
@@ -73,7 +80,9 @@ public class Task implements Parcelable {
         startTime = in.readLong();
         endTime = in.readLong();
         isDone = in.readByte() != 0;
-        subtasks = in.createTypedArrayList(Task.CREATOR);
+        parentTask = in.readLong();
+        pattern = in.readLong();
+        project = in.readLong();
     }
 
     public static final Creator<Task> CREATOR = new Creator<Task>() {
@@ -103,6 +112,8 @@ public class Task implements Parcelable {
         dest.writeLong(startTime);
         dest.writeLong(endTime);
         dest.writeByte((byte) (isDone ? 1 : 0));
-        dest.writeTypedList(subtasks);
+        dest.writeLong(parentTask);
+        dest.writeLong(pattern);
+        dest.writeLong(project);
     }
 }

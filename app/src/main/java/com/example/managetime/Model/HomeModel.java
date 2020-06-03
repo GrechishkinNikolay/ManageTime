@@ -8,10 +8,13 @@ import java.util.List;
 
 public class HomeModel {
 
-    private final DBHelper dbHelper;
+//    private final DBHelper dbHelper;
 
-    public HomeModel(DBHelper dbHelper) {
+/*    public HomeModel(DBHelper dbHelper) {
         this.dbHelper = dbHelper;
+    }*/
+
+    public HomeModel() {
     }
 
 /*    public List<Task> getTasksByDay(String date) {

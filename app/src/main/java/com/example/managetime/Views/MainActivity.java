@@ -11,7 +11,6 @@ import android.widget.CalendarView;
 import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
 
-import com.example.managetime.Model.DBHelper;
 import com.example.managetime.Model.HomeModel;
 import com.example.managetime.Presenter.HomePresenter;
 import com.example.managetime.R;
@@ -86,8 +85,9 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
 
         showTasks();
 
-        DBHelper dbHelper = new DBHelper(this);
-        HomeModel model = new HomeModel(dbHelper);
+//        DBHelper dbHelper = new DBHelper(this);
+//        HomeModel model = new HomeModel(dbHelper);
+        HomeModel model = new HomeModel();
         presenter = new HomePresenter(model);
         presenter.attachView(this);
         presenter.viewIsReady();

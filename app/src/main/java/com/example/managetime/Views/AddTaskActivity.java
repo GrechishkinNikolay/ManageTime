@@ -29,36 +29,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
         editTextTaskTitle.requestFocus();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-/*        findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.add();
-            }
-        });*/
 
-/*        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
-        userAdapter = new UserAdapter();
-
-        RecyclerView userList = (RecyclerView) findViewById(R.id.list);
-        userList.setLayoutManager(layoutManager);
-        userList.setAdapter(userAdapter);
-
-
-        DbHelper dbHelper = new DbHelper(this);
-        UsersModel usersModel = new UsersModel(dbHelper);
-        presenter = new UsersPresenter(usersModel);
-        presenter.attachView(this);
-        presenter.viewIsReady();*/
-
-        TimePicker timePicker = findViewById(R.id.timePicker);
-        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-            @Override
-            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-
-            }
-        });
     }
 
     public void showProgress() {
