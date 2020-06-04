@@ -17,7 +17,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Views.AddTaskActivity"></activity>
+        <activity
+            android:name=".Views.AddTaskActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="keyboardHidden|keyboard">
+        </activity>
     </application>
 
 </manifest>

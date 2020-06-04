@@ -85,8 +85,6 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
 
         showTasks();
 
-//        DBHelper dbHelper = new DBHelper(this);
-//        HomeModel model = new HomeModel(dbHelper);
         HomeModel model = new HomeModel();
         presenter = new HomePresenter(model);
         presenter.attachView(this);
