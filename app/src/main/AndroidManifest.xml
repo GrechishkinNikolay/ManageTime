@@ -20,7 +20,7 @@
         <activity
             android:name=".Views.AddTaskActivity"
             android:windowSoftInputMode="adjustResize"
-            android:configChanges="keyboardHidden|keyboard">
+            android:configChanges="keyboardHidden">
         </activity>
     </application>
 

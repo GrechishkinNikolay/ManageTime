@@ -39,17 +39,15 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
 
     // коллекция для групп
     ArrayList<Map<String, String>> groupData;
-
     // коллекция для элементов одной группы
     ArrayList<Map<String, String>> childDataItem;
-
     // общая коллекция для коллекций элементов
     ArrayList<ArrayList<Map<String, String>>> childData;
     // в итоге получится childData = ArrayList<childDataItem>
-
     // список атрибутов группы или элемента
     Map<String, String> m;
 
+    Date selectedDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +62,8 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
         addTaskFloatingButton = (FloatingActionButton) findViewById(R.id.addButton);
         ConstraintLayout topConstrainLayout = findViewById(R.id.calendarPath);
 
-        Date currentDate = Calendar.getInstance().getTime();
-        long currentDateInMilliseconds = currentDate.getTime();
+        selectedDate = Calendar.getInstance().getTime();
+        long currentDateInMilliseconds = selectedDate.getTime();
         calendar.setDate(currentDateInMilliseconds);
 
         addTaskFloatingButton.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-
+                selectedDate =
             }
         });
 
