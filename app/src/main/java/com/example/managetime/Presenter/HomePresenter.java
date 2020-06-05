@@ -13,7 +13,6 @@ import java.util.List;
 public class HomePresenter extends ViewModel {
 
     private HomeViewContract view;
-    private final HomeModel model;
 
     private LiveData<List<Task>> tasksLiveData = App.getInstance().getTaskDao().getAllTasksLiveData();
 
@@ -21,8 +20,7 @@ public class HomePresenter extends ViewModel {
         return tasksLiveData;
     }
 
-    public HomePresenter(HomeModel model) {
-        this.model = model;
+    public HomePresenter() {
     }
 
     public void attachView(HomeViewContract usersActivity) {
@@ -39,11 +37,6 @@ public class HomePresenter extends ViewModel {
     }
 
     public void loadTasks() {
-/*        model.loadUsers(new UsersModel.LoadUserCallback() {
-            @Override
-            public void onLoad(List<User> users) {
-                view.showUsers(users);
-            }
-        });*/
+
     }
 }

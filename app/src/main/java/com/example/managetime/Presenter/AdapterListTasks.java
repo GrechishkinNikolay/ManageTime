@@ -1,7 +1,10 @@
 package com.example.managetime.Presenter;
 
+import android.app.Activity;
 import android.graphics.Paint;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CalendarView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -14,7 +17,23 @@ import com.example.managetime.Model.dto.Task;
 import com.example.managetime.R;
 import com.example.managetime.Views.AddTaskActivity;
 
-public class AdapterListTasks extends RecyclerView.Adapter<> {
+public class AdapterListTasks extends RecyclerView.Adapter<AdapterListTasks.TaskViewHolder> {
+
+    @NonNull
+    @Override
+    public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return null;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return 0;
+    }
 
     static class TaskViewHolder extends RecyclerView.ViewHolder {
 
@@ -35,7 +54,7 @@ public class AdapterListTasks extends RecyclerView.Adapter<> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AddTaskActivity.start(itemView.getContext(), task, );
+                    AddTaskActivity.start((Activity) itemView.getContext(), task, null);
                 }
             });
 

@@ -46,7 +46,9 @@ public class AddTaskActivity extends AppCompatActivity {
         Intent intent = new Intent(caller, AddTaskActivity.class);
         if (task != null) {
             intent.putExtra(EXTRA_TASK, task);
-            intent.putExtra(EXTRA_DATE, date.getTime());
+            if (date != null) {
+                intent.putExtra(EXTRA_DATE, date.getTime());
+            }
         }
         caller.startActivity(intent);
     }
@@ -115,16 +117,5 @@ public class AddTaskActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-
-    public void showProgress() {
-        progressDialog = ProgressDialog.show(this, "", getString(R.string.please_wait));
-    }
-
-    public void hideProgress() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
     }
 }

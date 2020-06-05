@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.CalendarView;
 import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
+import android.widget.Toast;
 
 import com.example.managetime.Model.HomeModel;
 import com.example.managetime.Presenter.HomePresenter;
@@ -18,6 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Date;
 import java.util.Map;
@@ -77,14 +79,12 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                selectedDate =
+                selectedDate = new GregorianCalendar(year, month, dayOfMonth).getTime();
+                Toast.makeText(MainActivity.this, selectedDate.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
-        showTasks();
-
-        HomeModel model = new HomeModel();
-        presenter = new HomePresenter(model);
+        presenter = new HomePresenter();
         presenter.attachView(this);
         presenter.viewIsReady();
     }
