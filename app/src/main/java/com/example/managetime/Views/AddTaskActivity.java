@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.example.managetime.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.sql.Date;
+import java.util.List;
 
 public class AddTaskActivity extends AppCompatActivity {
 
@@ -42,13 +44,13 @@ public class AddTaskActivity extends AppCompatActivity {
 
     private View view;
 
-    public static void start(Activity caller, Task task, Date date) {
+    public static void start(Activity caller, Task task, long date) {
         Intent intent = new Intent(caller, AddTaskActivity.class);
         if (task != null) {
             intent.putExtra(EXTRA_TASK, task);
-            if (date != null) {
-                intent.putExtra(EXTRA_DATE, date.getTime());
-            }
+        }
+        if (date != 0) {
+            intent.putExtra(EXTRA_DATE, date);
         }
         caller.startActivity(intent);
     }
@@ -110,7 +112,11 @@ public class AddTaskActivity extends AppCompatActivity {
                         App.getInstance().getTaskDao().updateTask(task);
                         Toast.makeText(AddTaskActivity.this, "Задача обновлена", Toast.LENGTH_SHORT).show();
                     } else {
+                        task.startTime = getIntent().getLongExtra(EXTRA_DATE, 0);
                         App.getInstance().getTaskDao().insertTask(task);
+                        List<Task> tasks = App.getInstance().getTaskDao().getAllTasks();
+                        Task task2 = tasks.get(tasks.size() - 1);
+                        Log.d("MyTag", String.valueOf(task2.startTime));
                         Toast.makeText(AddTaskActivity.this, "Задача добавлена", Toast.LENGTH_SHORT).show();
                     }
                     finish();

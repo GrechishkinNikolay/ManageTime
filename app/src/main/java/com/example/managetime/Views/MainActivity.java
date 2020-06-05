@@ -3,53 +3,44 @@ package com.example.managetime.Views;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CalendarView;
-import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.Toast;
 
-import com.example.managetime.Model.HomeModel;
-import com.example.managetime.Presenter.HomePresenter;
+import com.example.managetime.App;
+import com.example.managetime.Model.dto.Task;
+import com.example.managetime.Presenter.AdapterListTasks;
+import com.example.managetime.Presenter.MainActivityPresenter;
 import com.example.managetime.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements HomeViewContract {
 
-    String[] groups = new String[] {"HTC", "Samsung", "LG"};
-
-    String[] phonesHTC = new String[] {"Sensation", "Desire", "Wildfire", "Hero"};
-    String[] phonesSams = new String[] {"Galaxy S II", "Galaxy Nexus", "Wave"};
-    String[] phonesLG = new String[] {"Optimus", "Optimus Link", "Optimus Black", "Optimus One"};
-
-    private HomePresenter presenter;
+    private MainActivityPresenter presenter;
 
     private FloatingActionButton addTaskFloatingButton;
     private CalendarView calendar;
     SimpleExpandableListAdapter expandableTaskListAdapter;
-    ExpandableListView tasksListView;
+    RecyclerView tasksListView;
 
-    // коллекция для групп
-    ArrayList<Map<String, String>> groupData;
-    // коллекция для элементов одной группы
-    ArrayList<Map<String, String>> childDataItem;
-    // общая коллекция для коллекций элементов
-    ArrayList<ArrayList<Map<String, String>>> childData;
-    // в итоге получится childData = ArrayList<childDataItem>
-    // список атрибутов группы или элемента
-    Map<String, String> m;
-
-    Date selectedDate;
+    private long selectedDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,101 +50,48 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
     }
 
     private void init() {
+
         calendar = findViewById(R.id.calendarView);
+        selectedDate = Calendar.getInstance().getTime().getTime();
+        calendar.setDate(selectedDate);
+
         tasksListView = findViewById(R.id.tasksListView);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        tasksListView.setLayoutManager(linearLayoutManager);
+        tasksListView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
+        final AdapterListTasks adapterListTasks = new AdapterListTasks();
+        tasksListView.setAdapter(adapterListTasks);
+
         addTaskFloatingButton = (FloatingActionButton) findViewById(R.id.addButton);
-        ConstraintLayout topConstrainLayout = findViewById(R.id.calendarPath);
-
-        selectedDate = Calendar.getInstance().getTime();
-        long currentDateInMilliseconds = selectedDate.getTime();
-        calendar.setDate(currentDateInMilliseconds);
-
         addTaskFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
-                startActivity(intent);
+                AddTaskActivity.start(MainActivity.this, null, selectedDate);
             }
         });
 
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                selectedDate = new GregorianCalendar(year, month, dayOfMonth).getTime();
-                Toast.makeText(MainActivity.this, selectedDate.toString(), Toast.LENGTH_SHORT).show();
+                GregorianCalendar date = new GregorianCalendar(year, month, dayOfMonth);
+                selectedDate = date.getTimeInMillis();
+                presenter.setSelectedDate(selectedDate);
+                List<Task> tasks = App.getInstance().getTaskDao().getTasksByStartTime(selectedDate).getValue();
+                if (tasks != null) {
+                    adapterListTasks.setItems(tasks);
+                }
+                Toast.makeText(MainActivity.this, String.valueOf(selectedDate), Toast.LENGTH_SHORT).show();
             }
         });
 
-        presenter = new HomePresenter();
+        presenter = new ViewModelProvider(this).get(MainActivityPresenter.class);
+        presenter.getTasksLiveData().observe(this, new Observer<List<Task>>() {
+            @Override
+            public void onChanged(List<Task> tasks) {
+                adapterListTasks.setItems(tasks);
+            }
+        });
         presenter.attachView(this);
-        presenter.viewIsReady();
-    }
-
-    @Override
-    public void showTasks() {
-        // заполняем коллекцию групп из массива с названиями групп
-        groupData = new ArrayList<Map<String, String>>();
-        for (String group : groups) {
-            // заполняем список атрибутов для каждой группы
-            m = new HashMap<String, String>();
-            m.put("groupName", group); // имя компании
-            groupData.add(m);
-        }
-
-        // список атрибутов групп для чтения
-        String groupFrom[] = new String[] {"groupName"};
-        // список ID view-элементов, в которые будет помещены атрибуты групп
-        int groupTo[] = new int[] {android.R.id.text1};
-
-
-        // создаем коллекцию для коллекций элементов
-        childData = new ArrayList<ArrayList<Map<String, String>>>();
-
-        // создаем коллекцию элементов для первой группы
-        childDataItem = new ArrayList<Map<String, String>>();
-        // заполняем список атрибутов для каждого элемента
-        for (String phone : phonesHTC) {
-            m = new HashMap<String, String>();
-            m.put("phoneName", phone); // название телефона
-            childDataItem.add(m);
-        }
-        // добавляем в коллекцию коллекций
-        childData.add(childDataItem);
-
-        // создаем коллекцию элементов для второй группы
-        childDataItem = new ArrayList<Map<String, String>>();
-        for (String phone : phonesSams) {
-            m = new HashMap<String, String>();
-            m.put("phoneName", phone);
-            childDataItem.add(m);
-        }
-        childData.add(childDataItem);
-
-        // создаем коллекцию элементов для третьей группы
-        childDataItem = new ArrayList<Map<String, String>>();
-        for (String phone : phonesLG) {
-            m = new HashMap<String, String>();
-            m.put("phoneName", phone);
-            childDataItem.add(m);
-        }
-        childData.add(childDataItem);
-
-        // список атрибутов элементов для чтения
-        String childFrom[] = new String[] {"phoneName"};
-        // список ID view-элементов, в которые будет помещены атрибуты элементов
-        int childTo[] = new int[] {android.R.id.text1};
-
-        expandableTaskListAdapter = new SimpleExpandableListAdapter(
-                this,
-                groupData,
-                android.R.layout.simple_expandable_list_item_1,
-                groupFrom,
-                groupTo,
-                childData,
-                android.R.layout.simple_list_item_1,
-                childFrom,
-                childTo);
-
-        tasksListView.setAdapter(expandableTaskListAdapter);
     }
 }
