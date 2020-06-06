@@ -85,22 +85,25 @@ public class AddTaskActivity extends AppCompatActivity {
     }*/
 
     private void init() {
-        editTextTaskTitle = (EditText) findViewById(R.id.taskTitle);
         textTimeAndDate = (TextView) findViewById(R.id.textTimeAndDate);
         addTaskFloatingButton = (FloatingActionButton) findViewById(R.id.addTaskFloatingButton);
         addDurationFloatingButton = (FloatingActionButton) findViewById(R.id.addDurationFloatingButton);
 
+        editTextTaskTitle = (EditText) findViewById(R.id.taskTitle);
         editTextTaskTitle.requestFocus();
+
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         setTitle(getString(R.string.add_activity_title));
 
         if (getIntent().hasExtra(EXTRA_TASK)) {
             task = getIntent().getParcelableExtra(EXTRA_TASK);
             editTextTaskTitle.setText(task.title);
+            date = new Date(task.startTime);
+            textTimeAndDate.setText(date.toString());
+
         } else {
             task = new Task();
         }
-//        textTimeAndDate.setText(date.toString());
 
         addTaskFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,13 +117,17 @@ public class AddTaskActivity extends AppCompatActivity {
                     } else {
                         task.startTime = getIntent().getLongExtra(EXTRA_DATE, 0);
                         App.getInstance().getTaskDao().insertTask(task);
-                        List<Task> tasks = App.getInstance().getTaskDao().getAllTasks();
-                        Task task2 = tasks.get(tasks.size() - 1);
-                        Log.d("MyTag", String.valueOf(task2.startTime));
                         Toast.makeText(AddTaskActivity.this, "Задача добавлена", Toast.LENGTH_SHORT).show();
                     }
                     finish();
                 }
+            }
+        });
+
+        addDurationFloatingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
