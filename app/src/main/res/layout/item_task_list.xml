@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingHorizontal="16dp">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/task_title"
@@ -12,14 +11,16 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:minHeight="64dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center_vertical"
-        tools:text="some text for testing"/>
+        tools:text="some text for testing, veeeeery much of text fo example. To testing it's will display in this placesome text for testing,rgghttrn"/>
 
     <CheckBox
         android:id="@+id/taskIsDoneCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Выполнено"
+        android:text="Done"
+        android:layout_gravity="center"
         android:layout_marginLeft="8dp"/>
 
     <ImageView

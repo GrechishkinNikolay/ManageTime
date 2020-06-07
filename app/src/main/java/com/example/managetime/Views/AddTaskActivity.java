@@ -1,48 +1,42 @@
 package com.example.managetime.Views;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
+import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import com.example.managetime.App;
 import com.example.managetime.Model.dto.Task;
 import com.example.managetime.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.sql.Date;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-public class AddTaskActivity extends AppCompatActivity {
+public class AddTaskActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
     private EditText editTextTaskTitle;
     private TextView textTimeAndDate;
-    private ProgressDialog progressDialog;
     private FloatingActionButton addTaskFloatingButton;
-    private FloatingActionButton addDurationFloatingButton;
+    private FloatingActionButton addTimeFloatingButton;
 
     private static final String EXTRA_TASK = "AddTaskActivity.EXTRA_TASK";
     private static final String EXTRA_DATE = "AddTaskActivity.EXTRA_DATE";
     private Task task;
     private Date date;
 
-    private View view;
+    private String dateAndTimeString;
+    private SimpleDateFormat formatter;
 
     public static void start(Activity caller, Task task, long date) {
         Intent intent = new Intent(caller, AddTaskActivity.class);
@@ -87,7 +81,7 @@ public class AddTaskActivity extends AppCompatActivity {
     private void init() {
         textTimeAndDate = (TextView) findViewById(R.id.textTimeAndDate);
         addTaskFloatingButton = (FloatingActionButton) findViewById(R.id.addTaskFloatingButton);
-        addDurationFloatingButton = (FloatingActionButton) findViewById(R.id.addDurationFloatingButton);
+        addTimeFloatingButton = (FloatingActionButton) findViewById(R.id.addTimeFloatingButton);
 
         editTextTaskTitle = (EditText) findViewById(R.id.taskTitle);
         editTextTaskTitle.requestFocus();
@@ -95,14 +89,23 @@ public class AddTaskActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         setTitle(getString(R.string.add_activity_title));
 
+        formatter = new SimpleDateFormat("d MMMM yyyy H:mm");
+
         if (getIntent().hasExtra(EXTRA_TASK)) {
             task = getIntent().getParcelableExtra(EXTRA_TASK);
             editTextTaskTitle.setText(task.title);
+
             date = new Date(task.startTime);
-            textTimeAndDate.setText(date.toString());
+            dateAndTimeString = formatter.format(date);
+            textTimeAndDate.setText(dateAndTimeString);
 
         } else {
             task = new Task();
+            if (getIntent().hasExtra(EXTRA_DATE)) {
+                date = new Date(getIntent().getLongExtra(EXTRA_DATE, 0));
+                dateAndTimeString = formatter.format(date);
+                textTimeAndDate.setText(dateAndTimeString);
+            }
         }
 
         addTaskFloatingButton.setOnClickListener(new View.OnClickListener() {
@@ -111,24 +114,37 @@ public class AddTaskActivity extends AppCompatActivity {
                 if (editTextTaskTitle.getText().length() > 0) {
                     task.title = editTextTaskTitle.getText().toString();
                     task.isDone = false;
+                    task.startTime = date.getTime();
                     if (getIntent().hasExtra(EXTRA_TASK)) {
                         App.getInstance().getTaskDao().updateTask(task);
                         Toast.makeText(AddTaskActivity.this, "Задача обновлена", Toast.LENGTH_SHORT).show();
                     } else {
-                        task.startTime = getIntent().getLongExtra(EXTRA_DATE, 0);
                         App.getInstance().getTaskDao().insertTask(task);
                         Toast.makeText(AddTaskActivity.this, "Задача добавлена", Toast.LENGTH_SHORT).show();
                     }
-                    finish();
+                    editTextTaskTitle.setText("");
+                    date.setHours(0);
+                    date.setMinutes(0);
+                    dateAndTimeString = formatter.format(date);
+                    textTimeAndDate.setText(dateAndTimeString);
                 }
             }
         });
 
-        addDurationFloatingButton.setOnClickListener(new View.OnClickListener() {
+        addTimeFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                DialogFragment timePicker = new TimePickerFragment();
+                timePicker.show(getSupportFragmentManager(), "time picker");
             }
         });
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        date.setHours(hourOfDay);
+        date.setMinutes(minute);
+        dateAndTimeString = formatter.format(date);
+        textTimeAndDate.setText(dateAndTimeString);
     }
 }

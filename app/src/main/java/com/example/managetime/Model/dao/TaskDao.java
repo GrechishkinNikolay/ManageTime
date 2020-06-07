@@ -23,7 +23,7 @@ public interface TaskDao {
     @Query("SELECT * FROM task")
     LiveData<List<Task>> getAllTasksLiveData();
 
-    @Query("SELECT * FROM task WHERE startTime  = :date")
+    @Query("SELECT * FROM task WHERE startTime / 1000 / 3600 / 24  = :date / 1000 / 3600 / 24")
     LiveData<List<Task>> getTasksByStartTime(@TypeConverters({DateConverter.class}) Date date);
 
     @Query("SELECT * FROM task WHERE id = :id LIMIT 1")

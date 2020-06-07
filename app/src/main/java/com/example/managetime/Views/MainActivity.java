@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
     private CalendarView calendar;
     SimpleExpandableListAdapter expandableTaskListAdapter;
     RecyclerView tasksListView;
+    private boolean firstStart = true;
 
     private long selectedDateMill;
     private Date date;
@@ -46,8 +47,11 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
 
     private void init() {
         calendar = findViewById(R.id.calendarView);
-        selectedDateMill = Calendar.getInstance().getTime().getTime();
-        calendar.setDate(selectedDateMill);
+        if (firstStart) {
+            selectedDateMill = Calendar.getInstance().getTime().getTime();
+            calendar.setDate(selectedDateMill);
+            date = new Date(selectedDateMill);
+        }
 
         tasksListView = findViewById(R.id.tasksListView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
@@ -90,5 +94,6 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
                 });
             }
         });
+        firstStart = false;
     }
 }

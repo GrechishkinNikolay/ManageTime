@@ -18,6 +18,8 @@ import com.example.managetime.Model.dto.Task;
 import com.example.managetime.R;
 import com.example.managetime.Views.AddTaskActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class AdapterListTasks extends RecyclerView.Adapter<AdapterListTasks.TaskViewHolder> {
@@ -34,7 +36,7 @@ public class AdapterListTasks extends RecyclerView.Adapter<AdapterListTasks.Task
                 if (!o1.isDone && o2.isDone) {
                     return -1;
                 }
-                return (int) (o2.startTime - o1.startTime);
+                return (int) (o1.startTime - o2.startTime);
             }
 
             @Override
@@ -134,7 +136,15 @@ public class AdapterListTasks extends RecyclerView.Adapter<AdapterListTasks.Task
         public void bind(Task task) {
             this.task = task;
 
-            taskTitle.setText(task.title);
+            SimpleDateFormat formatter = new SimpleDateFormat("H:mm");
+            Date date = new Date(task.startTime);
+            if (date.getHours() == 0 && date.getMinutes() == 0 ){
+                taskTitle.setText(task.title);
+            } else {
+                String dateAndTimeString = formatter.format(date);
+                taskTitle.setText(dateAndTimeString + " " + task.title);
+            }
+
             checkAndUpdateIsDone();
 
             silentUpdateTaskChecked = true;
