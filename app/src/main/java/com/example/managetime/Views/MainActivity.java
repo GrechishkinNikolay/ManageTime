@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
             @Override
             public boolean onLongClick(View v) {
                 Toast.makeText(MainActivity.this, "Вы очень долго нажимали эту кнопку", Toast.LENGTH_SHORT).show();
-                return false;
+                return true;
             }
         });
 

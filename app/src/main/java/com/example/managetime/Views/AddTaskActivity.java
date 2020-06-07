@@ -30,7 +30,12 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
     private TextView textTimeAndDate;
     private FloatingActionButton addTaskFloatingButton;
     private FloatingActionButton addTimeFloatingButton;
-    private Button duration30m;
+    private Button buttonAddDuration15m;
+    private Button buttonAddDuration30m;
+    private Button buttonAddDuration1h;
+    private Button buttonAddDuration2h;
+    private Button buttonAddDuration4h;
+    private Button buttonAddDuration8h;
 
     private static final String EXTRA_TASK = "AddTaskActivity.EXTRA_TASK";
     private static final String EXTRA_DATE = "AddTaskActivity.EXTRA_DATE";
@@ -80,11 +85,24 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         return view;
     }*/
 
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        date.setHours(hourOfDay);
+        date.setMinutes(minute);
+        dateAndTimeString = formatter.format(date);
+        textTimeAndDate.setText(dateAndTimeString);
+    }
+
     private void init() {
         textTimeAndDate = (TextView) findViewById(R.id.textTimeAndDate);
         addTaskFloatingButton = (FloatingActionButton) findViewById(R.id.addTaskFloatingButton);
         addTimeFloatingButton = (FloatingActionButton) findViewById(R.id.addTimeFloatingButton);
-        duration30m = (Button) findViewById(R.id.AddDuration30m);
+        buttonAddDuration15m = (Button) findViewById(R.id.AddDuration15m);
+        buttonAddDuration30m = (Button) findViewById(R.id.AddDuration30m);
+        buttonAddDuration1h = (Button) findViewById(R.id.AddDuration1h);
+        buttonAddDuration2h = (Button) findViewById(R.id.AddDuration2h);
+        buttonAddDuration4h = (Button) findViewById(R.id.AddDuration4h);
+        buttonAddDuration8h = (Button) findViewById(R.id.AddDuration8h);
 
         editTextTaskTitle = (EditText) findViewById(R.id.taskTitle);
         editTextTaskTitle.requestFocus();
@@ -142,7 +160,16 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
             }
         });
 
-        duration30m.setOnClickListener(new View.OnClickListener() {
+        buttonAddDuration15m.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Date date = new Date(0,0,0,0,15,0);
+                task.duration = date.getTime();
+                Toast.makeText(AddTaskActivity.this, "Длительность 15 мин.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        buttonAddDuration30m.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Date date = new Date(0,0,0,0,30,0);
@@ -150,13 +177,41 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
                 Toast.makeText(AddTaskActivity.this, "Длительность 30 мин.", Toast.LENGTH_SHORT).show();
             }
         });
-    }
 
-    @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        date.setHours(hourOfDay);
-        date.setMinutes(minute);
-        dateAndTimeString = formatter.format(date);
-        textTimeAndDate.setText(dateAndTimeString);
+        buttonAddDuration1h.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Date date = new Date(0,0,0,1,0,0);
+                task.duration = date.getTime();
+                Toast.makeText(AddTaskActivity.this, "Длительность 1ч.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        buttonAddDuration2h.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Date date = new Date(0,0,0,2,0,0);
+                task.duration = date.getTime();
+                Toast.makeText(AddTaskActivity.this, "Длительность 2ч.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        buttonAddDuration4h.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Date date = new Date(0,0,0,4,0,0);
+                task.duration = date.getTime();
+                Toast.makeText(AddTaskActivity.this, "Длительность 4ч.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        buttonAddDuration8h.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Date date = new Date(0,0,0,8,0,0);
+                task.duration = date.getTime();
+                Toast.makeText(AddTaskActivity.this, "Длительность 8ч.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
