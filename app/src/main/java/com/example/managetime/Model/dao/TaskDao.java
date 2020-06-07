@@ -26,6 +26,9 @@ public interface TaskDao {
     @Query("SELECT * FROM task WHERE date(startTime/1000, 'unixepoch','start of day')  = date(:date/1000, 'unixepoch','start of day')")
     LiveData<List<Task>> getTasksByStartTime(@TypeConverters({DateConverter.class}) Date date);
 
+    @Query("SELECT * FROM task WHERE date(startTime/1000, 'unixepoch','start of day')  = date(:date/1000, 'unixepoch','start of day')")
+    List<Task> getTasksByDay(@TypeConverters({DateConverter.class}) Date date);
+
     @Query("SELECT * FROM task WHERE id = :id LIMIT 1")
     Task getTaskById(int id);
 

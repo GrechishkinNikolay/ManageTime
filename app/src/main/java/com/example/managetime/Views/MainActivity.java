@@ -8,12 +8,14 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.Toast;
 
+import com.example.managetime.App;
 import com.example.managetime.Model.dto.Task;
 import com.example.managetime.Presenter.AdapterListTasks;
 import com.example.managetime.Presenter.MainActivityPresenter;
@@ -102,6 +104,8 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
         addTaskFloatingButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                List<Task> tasks = App.getInstance().getTaskDao().getTasksByDay(date);
+                DiagramTasksActivity.start(MainActivity.this, tasks);
                 Toast.makeText(MainActivity.this, "Вы очень долго нажимали эту кнопку", Toast.LENGTH_SHORT).show();
                 return true;
             }
