@@ -60,7 +60,17 @@
         android:textAllCaps="false"
         android:text="30м"
         app:layout_constraintLeft_toRightOf="@+id/AddDuration1h"
-        app:layout_constraintTop_toBottomOf="@+id/textTimeAndDate" />
+        app:layout_constraintTop_toBottomOf="@+id/textTimeAndDate"/>
+
+    <Button
+        android:id="@+id/AddDuration15m"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="130dp"
+        android:textAllCaps="false"
+        android:text="15м"
+        app:layout_constraintLeft_toRightOf="@+id/AddDuration30m"
+        app:layout_constraintTop_toBottomOf="@+id/textTimeAndDate"/>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

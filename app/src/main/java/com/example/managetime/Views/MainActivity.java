@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.SimpleExpandableListAdapter;
+import android.widget.Toast;
 
 import com.example.managetime.Model.dto.Task;
 import com.example.managetime.Presenter.AdapterListTasks;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
 
     private void init() {
         calendar = findViewById(R.id.calendarView);
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
         if (firstStart) {
             date = new Date(Calendar.getInstance().getTime().getTime());
             date.setHours(0);
@@ -73,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
 
         presenter = new ViewModelProvider(this).get(MainActivityPresenter.class);
         presenter.setSelectedDate(date);
-        presenter.getTasksLiveData().observe(this, new Observer<List<Task>>() {
+        presenter.getTasksLiveData().observe(MainActivity.this, new Observer<List<Task>>() {
             @Override
             public void onChanged(List<Task> tasks) {
                 adapterListTasks.setItems(tasks);
@@ -96,6 +98,15 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
                 });
             }
         });
+
+        addTaskFloatingButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(MainActivity.this, "Вы очень долго нажимали эту кнопку", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+
         firstStart = false;
     }
 }

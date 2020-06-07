@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -29,6 +30,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
     private TextView textTimeAndDate;
     private FloatingActionButton addTaskFloatingButton;
     private FloatingActionButton addTimeFloatingButton;
+    private Button duration30m;
 
     private static final String EXTRA_TASK = "AddTaskActivity.EXTRA_TASK";
     private static final String EXTRA_DATE = "AddTaskActivity.EXTRA_DATE";
@@ -82,6 +84,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         textTimeAndDate = (TextView) findViewById(R.id.textTimeAndDate);
         addTaskFloatingButton = (FloatingActionButton) findViewById(R.id.addTaskFloatingButton);
         addTimeFloatingButton = (FloatingActionButton) findViewById(R.id.addTimeFloatingButton);
+        duration30m = (Button) findViewById(R.id.AddDuration30m);
 
         editTextTaskTitle = (EditText) findViewById(R.id.taskTitle);
         editTextTaskTitle.requestFocus();
@@ -136,6 +139,15 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
             public void onClick(View v) {
                 DialogFragment timePicker = new TimePickerFragment();
                 timePicker.show(getSupportFragmentManager(), "time picker");
+            }
+        });
+
+        duration30m.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Date date = new Date(0,0,0,0,30,0);
+                task.duration = date.getTime();
+                Toast.makeText(AddTaskActivity.this, "Длительность 30 мин.", Toast.LENGTH_SHORT).show();
             }
         });
     }

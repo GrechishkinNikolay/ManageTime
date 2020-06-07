@@ -138,11 +138,18 @@ public class AdapterListTasks extends RecyclerView.Adapter<AdapterListTasks.Task
 
             SimpleDateFormat formatter = new SimpleDateFormat("H:mm");
             Date date = new Date(task.startTime);
-            if (date.getHours() == 0 && date.getMinutes() == 0 ){
+            if (date.getHours() == 0 && date.getMinutes() == 0) {
                 taskTitle.setText(task.title);
             } else {
-                String dateAndTimeString = formatter.format(date);
-                taskTitle.setText(dateAndTimeString + " " + task.title);
+                if (task.duration != 0) {
+                    Date endDate = new Date(task.startTime + task.duration);
+                    String startDateAndTimeString = formatter.format(date);
+                    String endDateAndTimeString = formatter.format(endDate);
+                    taskTitle.setText(startDateAndTimeString + "-" + endDateAndTimeString + " " + task.title);
+                } else {
+                    String dateAndTimeString = formatter.format(date);
+                    taskTitle.setText(dateAndTimeString + " " + task.title);
+                }
             }
 
             checkAndUpdateIsDone();
