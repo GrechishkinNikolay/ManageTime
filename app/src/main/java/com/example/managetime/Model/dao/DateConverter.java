@@ -2,7 +2,7 @@ package com.example.managetime.Model.dao;
 
 import androidx.room.TypeConverter;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class DateConverter {
         @TypeConverter

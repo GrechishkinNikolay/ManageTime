@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.SimpleExpandableListAdapter;
-import android.widget.Toast;
 
 import com.example.managetime.Model.dto.Task;
 import com.example.managetime.Presenter.AdapterListTasks;
@@ -22,7 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements HomeViewContract {
@@ -48,9 +47,12 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
     private void init() {
         calendar = findViewById(R.id.calendarView);
         if (firstStart) {
-            selectedDateMill = Calendar.getInstance().getTime().getTime();
+            date = new Date(Calendar.getInstance().getTime().getTime());
+            date.setHours(0);
+            date.setMinutes(0);
+            date.setSeconds(0);
+            selectedDateMill = date.getTime();
             calendar.setDate(selectedDateMill);
-            date = new Date(selectedDateMill);
         }
 
         tasksListView = findViewById(R.id.tasksListView);
@@ -81,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                GregorianCalendar gregorianCalendarDate = new GregorianCalendar(year, month, dayOfMonth);
+                GregorianCalendar gregorianCalendarDate = new GregorianCalendar(year, month + 1, dayOfMonth,0,0);
                 selectedDateMill = gregorianCalendarDate.getTimeInMillis();
 
                 date = new Date(selectedDateMill);
