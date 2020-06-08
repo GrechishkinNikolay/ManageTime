@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CalendarView;
@@ -40,11 +39,17 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
     private long selectedDateMill;
     private Date date;
 
+    private static Date dateForDiagram;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
+    }
+
+    public static Date getDateForDiagram() {
+        return dateForDiagram;
     }
 
     private void init() {
@@ -56,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
             date.setMinutes(0);
             date.setSeconds(0);
             selectedDateMill = date.getTime();
+            dateForDiagram = date;
             calendar.setDate(selectedDateMill);
         }
 
@@ -91,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
                 selectedDateMill = gregorianCalendarDate.getTimeInMillis();
 
                 date = new Date(selectedDateMill);
+                dateForDiagram = date;
                 presenter.setSelectedDate(date);
                 presenter.getTasksLiveData().observe(MainActivity.this, new Observer<List<Task>>() {
                     @Override
@@ -105,8 +112,7 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
             @Override
             public boolean onLongClick(View v) {
                 List<Task> tasks = App.getInstance().getTaskDao().getTasksByDay(date);
-                DiagramTasksActivity.start(MainActivity.this, tasks);
-                Toast.makeText(MainActivity.this, "Вы очень долго нажимали эту кнопку", Toast.LENGTH_SHORT).show();
+                DiagramTasksActivity.start(MainActivity.this);
                 return true;
             }
         });

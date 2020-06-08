@@ -163,8 +163,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         buttonAddDuration15m.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Date date = new Date(0,0,0,0,15,0);
-                task.duration = date.getTime();
+                task.duration = 15 * 60 * 1000;
                 Toast.makeText(AddTaskActivity.this, "Длительность 15 мин.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -172,8 +171,8 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         buttonAddDuration30m.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Date date = new Date(0,0,0,0,30,0);
-                task.duration = date.getTime();
+                Date date = new Date(1970,1,1,0,30,0);
+                task.duration = 30 * 60 * 1000;
                 Toast.makeText(AddTaskActivity.this, "Длительность 30 мин.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -181,8 +180,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         buttonAddDuration1h.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Date date = new Date(0,0,0,1,0,0);
-                task.duration = date.getTime();
+                task.duration = 1 * 3600 * 1000;
                 Toast.makeText(AddTaskActivity.this, "Длительность 1ч.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -190,8 +188,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         buttonAddDuration2h.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Date date = new Date(0,0,0,2,0,0);
-                task.duration = date.getTime();
+                task.duration = 2 * 3600 * 1000;
                 Toast.makeText(AddTaskActivity.this, "Длительность 2ч.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -199,8 +196,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         buttonAddDuration4h.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Date date = new Date(0,0,0,4,0,0);
-                task.duration = date.getTime();
+                task.duration = 4 * 3600 * 1000;
                 Toast.makeText(AddTaskActivity.this, "Длительность 4ч.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -208,8 +204,7 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
         buttonAddDuration8h.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Date date = new Date(0,0,0,8,0,0);
-                task.duration = date.getTime();
+                task.duration = 8 * 3600 * 1000;
                 Toast.makeText(AddTaskActivity.this, "Длительность 8ч.", Toast.LENGTH_SHORT).show();
             }
         });
