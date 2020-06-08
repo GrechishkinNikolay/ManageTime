@@ -33,10 +33,12 @@ public class DiagrammaTasksView extends View {
     private Rect rect = new Rect();
     private List<Task> tasks;
     private Calendar calendar;
-    private float hour;
+    private float hourCalendar;
 
-    private int minute;
+    private int minuteCalendar;
     private int hourOfDay;
+
+    private static int TITLE_LENGTH = 12;
 
     private void initClock() {
         height = getHeight();
@@ -62,9 +64,19 @@ public class DiagrammaTasksView extends View {
         }
 
         drawCircle(canvas);
+
         drawCenter(canvas);
+
+        fontSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 16,
+                getResources().getDisplayMetrics());
+        paint.setTextSize(fontSize);
         drawNumeral(canvas);
+
         drawHands(canvas);
+
+        fontSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12,
+                getResources().getDisplayMetrics());
+        paint.setTextSize(fontSize);
         drawTasks(canvas);
 
         postInvalidateDelayed(500);
@@ -81,31 +93,42 @@ public class DiagrammaTasksView extends View {
                 height / 2 + (radius - 30));
 
         long currentTime = calendar.getTimeInMillis();
-        calendar.add(Calendar.HOUR, 12);
-        long endTime = calendar.getTimeInMillis();
+        long endTimeDisplay = currentTime + 12 * 3600 * 1000;
 
         for (Task task : tasks) {
-            Date taskDate = new Date(task.startTime);
-            drawTask(canvas, oval, task.startTime, task.duration);
-            if (currentTime <= task.startTime && task.startTime < endTime) {
-                drawTask(canvas, oval, task.startTime, task.duration);
+//            drawTask(canvas, oval, task.startTime, task.duration, task.title);
+            if (currentTime <= task.startTime && task.startTime < endTimeDisplay) {
+                drawTask(canvas, oval, task.startTime, task.duration, task.title);
             }
         }
     }
 
-    private void drawTask(Canvas canvas, RectF oval, long startTime, long duration) {
+    private void drawTask(Canvas canvas, RectF oval, long startTime, long duration, String title) {
         Date startTimeDate = new Date(startTime);
         int hours = startTimeDate.getHours();
         int minut = hours * 60 + startTimeDate.getMinutes();
 
-        canvas.drawArc(oval, minut / 2 - 90, duration / 60000 / 2, true, paint);
+        paint.setColor(getResources().getColor(R.color.colorTask));
+        paint.setAlpha(50);
+        float startAngle = minut / 2f - 90;
+        float sweepAngle = duration / 60000f / 2;
+        canvas.drawArc(oval, startAngle, sweepAngle, true, paint);
+
+        String taskTitle = (title.length() < TITLE_LENGTH) ? title : title.substring(0, TITLE_LENGTH);
+        paint.getTextBounds(taskTitle, 0, taskTitle.length(), rect);
+        paint.setColor(getResources().getColor(R.color.colorTaskTitle));
+        paint.setAlpha(255);
+
+        int x = (int) (width / 2 + Math.cos(Math.toRadians(startAngle + sweepAngle / 2)) * (radius - 3 * padding) - rect.width() / 2);
+        int y = (int) (height / 2 + Math.sin(Math.toRadians(startAngle + sweepAngle / 2)) * (radius - 3 * padding) + rect.height() / 2);
+        canvas.drawText(taskTitle, x, y, paint);
     }
 
     private void drawCenter(Canvas canvas) {
         paint.setColor(getResources().getColor(R.color.colorAccent));
         paint.setStyle(Paint.Style.FILL);
 
-        canvas.drawCircle(width / 2, height / 2, radius / 10 , paint);
+        canvas.drawCircle(width / 2, height / 2, radius / 12 , paint);
     }
 
     private void drawCircle(Canvas canvas) {
@@ -114,26 +137,27 @@ public class DiagrammaTasksView extends View {
         paint.setStrokeWidth(5);
         paint.setStyle(Paint.Style.STROKE);
         paint.setAntiAlias(true);
-        canvas.drawCircle(width / 2, height / 2, radius + padding - 10, paint);
+        canvas.drawCircle(width / 2, height / 2, radius + padding - 8 , paint);
     }
 
     private void drawHands(Canvas canvas) {
         calendar = Calendar.getInstance();
-        hour = calendar.get(Calendar.HOUR_OF_DAY);
-        hourOfDay = (int) hour;
-        minute = calendar.get(Calendar.MINUTE);
-        hour = hour > 12 ? hour - 12 : hour;
-        drawHand(canvas, (hour + calendar.get(Calendar.MINUTE) / 60) * 5f, true);
+        hourCalendar = calendar.get(Calendar.HOUR_OF_DAY);
+        hourOfDay = (int) hourCalendar;
+        minuteCalendar = calendar.get(Calendar.MINUTE);
+        hourCalendar = hourCalendar >= 12 ? hourCalendar - 12 : hourCalendar;
+        drawHand(canvas, (hourCalendar + calendar.get(Calendar.MINUTE) / 60f) * 5f, true);
         drawHand(canvas, calendar.get(Calendar.MINUTE), false);
         drawHand(canvas, calendar.get(Calendar.SECOND), false);
     }
 
     private void drawHand(Canvas canvas, double loc, boolean isHour) {
-        double angle = Math.PI * loc / 30 - Math.PI / 2;
+//        double angle = Math.PI * loc / 30 - Math.PI / 2;
+        double angle = 360 * (loc / 60);
         int handRadius = isHour ? radius - handTruncation - hourHandTruncation : radius - handTruncation;
         canvas.drawLine(width / 2, height / 2,
-                (float) (width / 2 + Math.cos(angle) * handRadius),
-                (float) (height / 2 + Math.sin(angle) * handRadius),
+                (float) (width / 2 + Math.cos(Math.toRadians(angle - 90)) * handRadius),
+                (float) (height / 2 + Math.sin(Math.toRadians(angle - 90)) * handRadius),
                 paint);
     }
 

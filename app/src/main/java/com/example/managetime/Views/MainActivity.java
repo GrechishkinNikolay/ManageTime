@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                GregorianCalendar gregorianCalendarDate = new GregorianCalendar(year, month + 1, dayOfMonth,0,0);
+                GregorianCalendar gregorianCalendarDate = new GregorianCalendar(year, month, dayOfMonth,0,0);
                 selectedDateMill = gregorianCalendarDate.getTimeInMillis();
 
                 date = new Date(selectedDateMill);
