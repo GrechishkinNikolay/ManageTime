@@ -37,6 +37,7 @@ public class DiagrammaTasksView extends View {
 
     private int minuteCalendar;
     private int hourOfDay;
+    Date dateChoosed;
 
     private static int TITLE_LENGTH = 12;
 
@@ -51,8 +52,8 @@ public class DiagrammaTasksView extends View {
         handTruncation = min / 20;
         hourHandTruncation = min / 7;
         paint = new Paint();
-        Date date = MainActivity.getDateForDiagram();
-        tasks = App.getInstance().getTaskDao().getTasksByDay(date);
+        dateChoosed = MainActivity.getDateForDiagram();
+        tasks = App.getInstance().getTaskDao().getTasksByDay(dateChoosed);
         calendar = Calendar.getInstance();
         isInit = true;
     }
@@ -92,11 +93,12 @@ public class DiagrammaTasksView extends View {
         oval.set(width / 2 - (radius - 30), height / 2 - (radius - 30), width / 2 + (radius - 30),
                 height / 2 + (radius - 30));
 
-        long currentTime = calendar.getTimeInMillis();
+        dateChoosed.setHours(calendar.get(Calendar.HOUR_OF_DAY));
+        dateChoosed.setMinutes(calendar.get(Calendar.MINUTE));
+        long currentTime = (dateChoosed.getTime());
         long endTimeDisplay = currentTime + 12 * 3600 * 1000;
 
         for (Task task : tasks) {
-//            drawTask(canvas, oval, task.startTime, task.duration, task.title);
             if (currentTime <= task.startTime && task.startTime < endTimeDisplay) {
                 drawTask(canvas, oval, task.startTime, task.duration, task.title);
             }
@@ -152,7 +154,6 @@ public class DiagrammaTasksView extends View {
     }
 
     private void drawHand(Canvas canvas, double loc, boolean isHour) {
-//        double angle = Math.PI * loc / 30 - Math.PI / 2;
         double angle = 360 * (loc / 60);
         int handRadius = isHour ? radius - handTruncation - hourHandTruncation : radius - handTruncation;
         canvas.drawLine(width / 2, height / 2,

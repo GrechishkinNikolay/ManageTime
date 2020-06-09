@@ -111,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
         addTaskFloatingButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                List<Task> tasks = App.getInstance().getTaskDao().getTasksByDay(date);
                 DiagramTasksActivity.start(MainActivity.this);
                 return true;
             }
