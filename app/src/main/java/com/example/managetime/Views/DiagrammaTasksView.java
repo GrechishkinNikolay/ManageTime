@@ -99,7 +99,8 @@ public class DiagrammaTasksView extends View {
         long endTimeDisplay = currentTime + 12 * 3600 * 1000;
 
         for (Task task : tasks) {
-            if (currentTime <= task.startTime && task.startTime < endTimeDisplay) {
+            if ((currentTime <= task.startTime && task.startTime < endTimeDisplay) ||
+                    (currentTime <= (task.startTime + task.duration) && (task.startTime + task.duration) < endTimeDisplay) ) {
                 drawTask(canvas, oval, task.startTime, task.duration, task.title);
             }
         }
@@ -114,7 +115,11 @@ public class DiagrammaTasksView extends View {
         paint.setAlpha(50);
         float startAngle = minut / 2f - 90;
         float sweepAngle = duration / 60000f / 2;
+
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        paint.setStrokeWidth(10);
         canvas.drawArc(oval, startAngle, sweepAngle, true, paint);
+        paint.setStyle(Paint.Style.FILL);
 
         String taskTitle = (title.length() < TITLE_LENGTH) ? title : title.substring(0, TITLE_LENGTH);
         paint.getTextBounds(taskTitle, 0, taskTitle.length(), rect);
