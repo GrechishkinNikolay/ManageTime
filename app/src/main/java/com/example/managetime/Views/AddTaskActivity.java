@@ -148,6 +148,8 @@ public class AddTaskActivity extends AppCompatActivity implements TimePickerDial
                     date.setMinutes(0);
                     dateAndTimeString = formatter.format(date);
                     textTimeAndDate.setText(dateAndTimeString);
+                } else {
+                    Toast.makeText(AddTaskActivity.this, "Введите содержание задачи!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

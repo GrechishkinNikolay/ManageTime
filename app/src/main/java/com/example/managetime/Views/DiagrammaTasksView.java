@@ -39,7 +39,7 @@ public class DiagrammaTasksView extends View {
     private int hourOfDay;
     Date dateChoosed;
 
-    private static int TITLE_LENGTH = 12;
+    private static int TITLE_LENGTH = 7;
 
     private void initClock() {
         height = getHeight();
@@ -65,13 +65,13 @@ public class DiagrammaTasksView extends View {
         }
 
         drawCircle(canvas);
-
         drawCenter(canvas);
 
         fontSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 16,
                 getResources().getDisplayMetrics());
         paint.setTextSize(fontSize);
         drawNumeral(canvas);
+        drawMinuteMarks(canvas);
 
         drawHands(canvas);
 
@@ -114,7 +114,7 @@ public class DiagrammaTasksView extends View {
         paint.setColor(getResources().getColor(R.color.colorTask));
         paint.setAlpha(50);
         float startAngle = minut / 2f - 90;
-        float sweepAngle = duration / 60000f / 2;
+        float sweepAngle = (duration == 0) ? 1f : duration / 60000f / 2;
 
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
         paint.setStrokeWidth(10);
@@ -128,7 +128,7 @@ public class DiagrammaTasksView extends View {
 
         int x = (int) (width / 2 + Math.cos(Math.toRadians(startAngle + sweepAngle / 2)) * (radius - 3 * padding) - rect.width() / 2);
         int y = (int) (height / 2 + Math.sin(Math.toRadians(startAngle + sweepAngle / 2)) * (radius - 3 * padding) + rect.height() / 2);
-        canvas.drawText(taskTitle, x, y, paint);
+        canvas.drawText(title, x, y, paint);
     }
 
     private void drawCenter(Canvas canvas) {
@@ -177,6 +177,18 @@ public class DiagrammaTasksView extends View {
             int x = (int) (width / 2 + Math.cos(angle) * radius - rect.width() / 2);
             int y = (int) (height / 2 + Math.sin(angle) * radius + rect.height() / 2);
             canvas.drawText(tmp, x, y, paint);
+        }
+    }
+    private void drawMinuteMarks(Canvas canvas) {
+        for (int i = 0; i < 60; i++) {
+            if (i % 5 != 0) {
+                double angle = Math.PI / 30 * (i - 15);
+                int x = (int) (width / 2 + Math.cos(angle) * (radius - 5));
+                int y = (int) (height / 2 + Math.sin(angle) * (radius - 5));
+                int x2 = (int) (width / 2 + Math.cos(angle) * (radius + 10));
+                int y2 = (int) (height / 2 + Math.sin(angle) * (radius + 10));
+                canvas.drawLine(x, y, x2, y2, paint);
+            }
         }
     }
     
