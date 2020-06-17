@@ -151,7 +151,6 @@ public class AdapterListTasks extends RecyclerView.Adapter<AdapterListTasks.Task
                     taskTitle.setText(dateAndTimeString + " " + task.title);
                 }
             }
-            taskTitle.setText("new branch");
 
             checkAndUpdateIsDone();
 

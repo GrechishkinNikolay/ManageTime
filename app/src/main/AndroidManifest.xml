@@ -10,6 +10,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
+        <receiver android:name=".WidgetTasksDiagram">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_tasks_diagram_info" />
+        </receiver>
+
+        <activity android:name=".WidgetTasksDiagramConfigureActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
         <activity android:name=".Views.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,10 +35,8 @@
         <activity
             android:name=".Views.AddTaskActivity"
             android:configChanges="keyboardHidden"
-            android:windowSoftInputMode="adjustResize"></activity>
-        <activity android:name=".Views.DiagramTasksActivity">
-
-        </activity>
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".Views.DiagramTasksActivity"></activity>
     </application>
 
 </manifest>
