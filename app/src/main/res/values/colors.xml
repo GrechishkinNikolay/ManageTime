@@ -2,7 +2,5 @@
 <resources>
     <color name="colorPrimary">#81CCC5</color>
     <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorTask">#CC8100</color>
     <color name="colorAccent">#CC8100</color>
-    <color name="colorTaskTitle">#71C7BF</color>
 </resources>

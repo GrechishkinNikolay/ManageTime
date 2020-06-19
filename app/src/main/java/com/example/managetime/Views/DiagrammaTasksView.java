@@ -39,7 +39,7 @@ public class DiagrammaTasksView extends View {
     private int hourOfDay;
     Date dateChoosed;
 
-    private static int TITLE_LENGTH = 7;
+    private static int TITLE_LENGTH = 15;
 
     private void initClock() {
         height = getHeight();
@@ -87,7 +87,7 @@ public class DiagrammaTasksView extends View {
     private void drawTasks(Canvas canvas) {
         final RectF oval = new RectF();
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(getResources().getColor(R.color.colorTask));
+        paint.setColor(getResources().getColor(R.color.colorAccent));
         paint.setAlpha(50);
 
         oval.set(width / 2 - (radius - 30), height / 2 - (radius - 30), width / 2 + (radius - 30),
@@ -111,7 +111,7 @@ public class DiagrammaTasksView extends View {
         int hours = startTimeDate.getHours();
         int minut = hours * 60 + startTimeDate.getMinutes();
 
-        paint.setColor(getResources().getColor(R.color.colorTask));
+        paint.setColor(getResources().getColor(R.color.colorAccent));
         paint.setAlpha(50);
         float startAngle = minut / 2f - 90;
         float sweepAngle = (duration == 0) ? 1f : duration / 60000f / 2;
@@ -123,12 +123,12 @@ public class DiagrammaTasksView extends View {
 
         String taskTitle = (title.length() < TITLE_LENGTH) ? title : title.substring(0, TITLE_LENGTH);
         paint.getTextBounds(taskTitle, 0, taskTitle.length(), rect);
-        paint.setColor(getResources().getColor(R.color.colorTaskTitle));
+        paint.setColor(getResources().getColor(R.color.colorPrimary));
         paint.setAlpha(255);
 
         int x = (int) (width / 2 + Math.cos(Math.toRadians(startAngle + sweepAngle / 2)) * (radius - 3 * padding) - rect.width() / 2);
         int y = (int) (height / 2 + Math.sin(Math.toRadians(startAngle + sweepAngle / 2)) * (radius - 3 * padding) + rect.height() / 2);
-        canvas.drawText(title, x, y, paint);
+        canvas.drawText(taskTitle, x, y, paint);
     }
 
     private void drawCenter(Canvas canvas) {
@@ -161,10 +161,13 @@ public class DiagrammaTasksView extends View {
     private void drawHand(Canvas canvas, double loc, boolean isHour) {
         double angle = 360 * (loc / 60);
         int handRadius = isHour ? radius - handTruncation - hourHandTruncation : radius - handTruncation;
+        float handWidth = isHour ? 20 : paint.getStrokeWidth();
+        paint.setStrokeWidth(handWidth);
         canvas.drawLine(width / 2, height / 2,
                 (float) (width / 2 + Math.cos(Math.toRadians(angle - 90)) * handRadius),
                 (float) (height / 2 + Math.sin(Math.toRadians(angle - 90)) * handRadius),
                 paint);
+        paint.setStrokeWidth(5f);
     }
 
     private void drawNumeral(Canvas canvas) {

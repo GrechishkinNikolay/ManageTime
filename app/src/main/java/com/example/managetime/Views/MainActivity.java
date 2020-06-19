@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CalendarView;
+import android.widget.SeekBar;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.Toast;
 
@@ -32,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
 
     private FloatingActionButton addTaskFloatingButton;
     private CalendarView calendar;
-    SimpleExpandableListAdapter expandableTaskListAdapter;
     RecyclerView tasksListView;
     private boolean firstStart = true;
 
