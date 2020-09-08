@@ -39,7 +39,7 @@ public class DiagrammaTasksView extends View {
     private int hourOfDay;
     Date dateChoosed;
 
-    private static int TITLE_LENGTH = 7;
+    private static int TITLE_LENGTH = 15;
 
     private void initClock() {
         height = getHeight();
@@ -128,7 +128,7 @@ public class DiagrammaTasksView extends View {
 
         int x = (int) (width / 2 + Math.cos(Math.toRadians(startAngle + sweepAngle / 2)) * (radius - 3 * padding) - rect.width() / 2);
         int y = (int) (height / 2 + Math.sin(Math.toRadians(startAngle + sweepAngle / 2)) * (radius - 3 * padding) + rect.height() / 2);
-        canvas.drawText(title, x, y, paint);
+        canvas.drawText(taskTitle, x, y, paint);
     }
 
     private void drawCenter(Canvas canvas) {
