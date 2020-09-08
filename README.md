@@ -1,6 +1,5 @@
 # ManageTime
 Нативное мобильное приложение для делового тайм-менеджмента.
-[](images/Аннотация 2020-09-08 155257.png)
-❮img src="images/Аннотация 2020-09-08 155257.png" width="80" ❯
-❮img src="images/Аннотация 2020-09-08 155328.png" width="80" ❯
-❮img src="images/Аннотация 2020-09-08 155357.png" width="80" ❯
+![](https://github.com/GrechiskinNikolay/ManageTime/blob/master/images/Аннотация%202020-09-08%20155257.png)
+![](https://github.com/GrechiskinNikolay/ManageTime/blob/master/images/Аннотация%202020-09-08%20155328.png)
+![](https://github.com/GrechiskinNikolay/ManageTime/blob/master/images/Аннотация%202020-09-08%20155357.png)
