@@ -85,22 +85,14 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
             }
         });
 
-        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                GregorianCalendar gregorianCalendarDate = new GregorianCalendar(year, month, dayOfMonth,0,0);
-                selectedDateMill = gregorianCalendarDate.getTimeInMillis();
+        calendar.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
+            GregorianCalendar gregorianCalendarDate = new GregorianCalendar(year, month, dayOfMonth,0,0);
+            selectedDateMill = gregorianCalendarDate.getTimeInMillis();
 
-                date = new Date(selectedDateMill);
-                dateForDiagram = date;
-                presenter.setSelectedDate(date);
-                presenter.getTasksLiveData().observe(MainActivity.this, new Observer<List<Task>>() {
-                    @Override
-                    public void onChanged(List<Task> tasks) {
-                        adapterListTasks.setItems(tasks);
-                    }
-                });
-            }
+            date = new Date(selectedDateMill);
+            dateForDiagram = date;
+            presenter.setSelectedDate(date);
+            presenter.getTasksLiveData().observe(MainActivity.this, tasks -> adapterListTasks.setItems(tasks));
         });
 
         addTaskFloatingButton.setOnLongClickListener(new View.OnLongClickListener() {
