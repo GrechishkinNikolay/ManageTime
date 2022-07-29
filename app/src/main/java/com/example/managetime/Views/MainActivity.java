@@ -74,12 +74,7 @@ public class MainActivity extends AppCompatActivity implements HomeViewContract 
         tasksListView.setAdapter(adapterListTasks);
 
         addTaskFloatingButton = (FloatingActionButton) findViewById(R.id.addButton);
-        addTaskFloatingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AddTaskActivity.start(MainActivity.this, null, selectedDateMill);
-            }
-        });
+        addTaskFloatingButton.setOnClickListener(v -> AddTaskActivity.start(MainActivity.this, null, selectedDateMill));
 
         presenter = new ViewModelProvider(this).get(MainActivityPresenter.class);
         presenter.setSelectedDate(date);

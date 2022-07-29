@@ -48,7 +48,8 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textAllCaps="false"
-            android:text="8ч"/>
+            android:text="8ч"
+            style="?android:attr/buttonBarButtonStyle" />
 
         <Button
             android:id="@+id/AddDuration4h"
